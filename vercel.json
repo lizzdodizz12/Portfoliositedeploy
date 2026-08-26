@@ -1,28 +1,15 @@
 {
-  "buildCommand": "composer install --no-interaction --prefer-dist --optimize-autoloader && npm install && npm run build",
-  "devCommand": "php artisan serve",
-  "outputDirectory": "public",
-  "framework": "laravel",
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "buildCommand": "npm run build",
   "functions": {
     "api/index.php": {
-      "runtime": "php-8.2"
+      "runtime": "vercel-php@0.5.2"
     }
   },
-  "routes": [
+  "rewrites": [
     {
-      "src": "/build/(.*)",
-      "dest": "/build/$1"
-    },
-    {
-      "src": "/storage/(.*)",
-      "dest": "/storage/$1"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/api/index.php"
+      "source": "/(.*)",
+      "destination": "/api/index.php"
     }
-  ],
-  "env": {
-    "APP_ENV": "production"
-  }
+  ]
 }
