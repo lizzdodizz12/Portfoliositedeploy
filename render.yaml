@@ -1,0 +1,43 @@
+services:
+  - type: web
+    name: portfolio
+    runtime: docker
+    region: oregon
+    plan: free
+    
+    # Environment variables
+    envVars:
+      - key: APP_NAME
+        value: PortfolioWebsite
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: "false"
+      - key: LOG_CHANNEL
+        value: stack
+      - key: DB_CONNECTION
+        value: sqlite
+      - key: SESSION_DRIVER
+        value: database
+      - key: APP_KEY
+        sync: false  # Must be set manually in Render dashboard
+      - key: APP_URL
+        sync: false  # Will be set to your Render domain automatically
+      - key: PORT
+        value: "3000"
+    
+    # Build settings
+    buildCommand: ""  # Dockerfile handles the build
+    startCommand: /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf
+    
+    # Health check
+    healthCheckPath: /
+    
+    # Limits
+    numInstances: 1
+    
+    # Disk
+    disk:
+      name: storage
+      mountPath: /var/www/html/storage
+      sizeGB: 1

@@ -1,0 +1,57 @@
+# Git
+.git
+.gitignore
+.gitattributes
+
+# Node
+node_modules
+npm-debug.log
+yarn-error.log
+package-lock.json
+yarn.lock
+
+# Composer
+vendor
+composer.lock
+
+# Laravel
+storage/logs/*
+storage/framework/sessions/*
+storage/framework/cache/*
+bootstrap/cache/*
+.env
+.env.backup
+.env.*.backup
+.env.*.local
+
+# IDE
+.vscode
+.idea
+.fleet
+.nova
+.zed
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Testing
+.phpunit.cache
+.phpunit.result.cache
+coverage
+.nyc_output
+tests/
+
+# Build artifacts (keep public/build but ignore others)
+*.min.js
+*.min.css
+
+# Development
+docker-compose.yml
+Dockerfile.dev
+.editorconfig
+phpunit.xml
+Homestead.json
+Homestead.yaml
+sail
+.env.example
