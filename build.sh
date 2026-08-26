@@ -4,11 +4,12 @@ set -eu
 mkdir -p database
 
 if [ "${DB_CONNECTION:-sqlite}" = "sqlite" ]; then
-    database_path="${DB_DATABASE:-database/database.sqlite}"
+    database_path="${DB_DATABASE:-/var/www/html/database/database.sqlite}"
 
     if [ "$database_path" != ":memory:" ]; then
         mkdir -p "$(dirname "$database_path")"
         touch "$database_path"
+        [ -f "$database_path" ]
     fi
 fi
 
@@ -25,9 +26,9 @@ fi
 
 chmod -R ug+rwX database storage bootstrap/cache
 
-export CACHE_STORE="${CACHE_STORE:-file}"
-export SESSION_DRIVER="${SESSION_DRIVER:-file}"
-export QUEUE_CONNECTION="${QUEUE_CONNECTION:-sync}"
+export CACHE_STORE=file
+export SESSION_DRIVER=file
+export QUEUE_CONNECTION=sync
 
 php artisan optimize:clear --no-interaction
 php artisan package:discover --ansi
