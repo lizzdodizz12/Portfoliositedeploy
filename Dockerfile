@@ -37,18 +37,10 @@ RUN npm ci
 # Copy application files
 COPY . .
 
-# Run Laravel's package discovery after artisan is available
-RUN php artisan package:discover --ansi
-
-# Build Vite assets
-RUN npm run build
-
-# Generate Laravel app key (will be overridden by Render environment variable)
-RUN php artisan key:generate --no-interaction || true
-
-# Set proper permissions for storage and bootstrap cache
-RUN mkdir -p storage/logs storage/framework/cache storage/framework/sessions storage/framework/testing bootstrap/cache \
-    && chmod -R 775 storage bootstrap/cache
+# Run the production build and runtime-directory preparation
+COPY build.sh /usr/local/bin/build.sh
+RUN chmod +x /usr/local/bin/build.sh \
+    && /usr/local/bin/build.sh
 
 # Stage 2: Runtime stage
 FROM php:8.2-fpm-alpine
