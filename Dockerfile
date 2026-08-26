@@ -7,14 +7,11 @@ RUN apk add --no-cache \
     git \
     curl \
     unzip \
-    sqlite-libs \
-    sqlite \
+    sqlite-dev \
     libpq-dev \
     && docker-php-ext-install \
-    pdo \
     pdo_sqlite \
-    pdo_pgsql \
-    && docker-php-ext-enable pdo pdo_sqlite pdo_pgsql
+    pdo_pgsql
 
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
@@ -57,16 +54,13 @@ FROM php:8.2-fpm-alpine
 RUN apk add --no-cache \
     bash \
     curl \
-    sqlite-libs \
-    sqlite \
+    sqlite-dev \
     libpq-dev \
     nginx \
     supervisor \
     && docker-php-ext-install \
-    pdo \
     pdo_sqlite \
-    pdo_pgsql \
-    && docker-php-ext-enable pdo pdo_sqlite pdo_pgsql
+    pdo_pgsql
 
 # Set working directory
 WORKDIR /var/www/html
