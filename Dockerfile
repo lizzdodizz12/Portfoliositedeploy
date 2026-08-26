@@ -71,43 +71,21 @@ WORKDIR /var/www/html
 # Copy application from build stage
 COPY --from=build-stage --chown=www-data:www-data /var/www/html /var/www/html
 
-# Copy nginx configuration
-RUN mkdir -p /etc/nginx/conf.d
-COPY <<EOF /etc/nginx/conf.d/default.conf
-server {
-    listen 0.0.0.0:3000 default_server;
-    server_name _;
-    
-    root /var/www/html/public;
-    index index.php;
-    
-    client_max_body_size 20M;
-    
-    location / {
-        try_files \$uri \$uri/ /index.php?\$query_string;
-    }
-    
-    location ~ \.php\$ {
-        fastcgi_pass 127.0.0.1:9000;
-        fastcgi_param SCRIPT_FILENAME \$realpath_root\$fastcgi_script_name;
-        include fastcgi_params;
-    }
-    
-    location ~ /\.(?!well-known).* {
-        deny all;
-    }
-}
-EOF
+# Copy Nginx configuration and Render port entrypoint
+COPY nginx.conf.template /etc/nginx/nginx.conf.template
+COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
 # Copy supervisor configuration for managing PHP-FPM and nginx
 COPY <<EOF /etc/supervisor/conf.d/supervisord.conf
 [supervisord]
 nodaemon=true
+user=root
 logfile=/var/log/supervisor/supervisord.log
 pidfile=/var/run/supervisord.pid
 
 [program:php-fpm]
-command=/usr/local/sbin/php-fpm
+command=/usr/local/sbin/php-fpm --nodaemonize
 autostart=true
 autorestart=true
 stderr_logfile=/var/log/php-fpm.err.log
@@ -115,7 +93,7 @@ stdout_logfile=/var/log/php-fpm.out.log
 priority=999
 
 [program:nginx]
-command=/usr/sbin/nginx -g "daemon off;"
+command=/usr/sbin/nginx -c /etc/nginx/nginx.conf -g "daemon off;"
 autostart=true
 autorestart=true
 stderr_logfile=/var/log/nginx/error.log
@@ -126,12 +104,11 @@ EOF
 # Create log directories
 RUN mkdir -p /var/log/supervisor /var/log/nginx /var/log/php-fpm.d
 
-# Expose port 3000 (Render requires listening on PORT env variable)
-EXPOSE 3000
+# Render supplies PORT at runtime; the entrypoint applies it to Nginx.
+EXPOSE 10000
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
-    CMD curl -f http://localhost:3000/ || exit 1
+    CMD curl -f http://localhost:${PORT:-10000}/ || exit 1
 
-# Start supervisor to manage services
-CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
+ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
