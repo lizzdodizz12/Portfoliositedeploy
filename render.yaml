@@ -18,7 +18,11 @@ services:
       - key: DB_CONNECTION
         value: sqlite
       - key: SESSION_DRIVER
-        value: database
+        value: file
+      - key: CACHE_STORE
+        value: file
+      - key: QUEUE_CONNECTION
+        value: sync
       - key: APP_KEY
         sync: false  # Must be set manually in Render dashboard
       - key: APP_URL
