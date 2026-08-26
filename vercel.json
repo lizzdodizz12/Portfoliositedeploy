@@ -8,6 +8,14 @@
   },
   "rewrites": [
     {
+      "source": "/build/(.*)",
+      "destination": "/build/$1"
+    },
+    {
+      "source": "/storage/(.*)",
+      "destination": "/storage/$1"
+    },
+    {
       "source": "/(.*)",
       "destination": "/api/index.php"
     }
