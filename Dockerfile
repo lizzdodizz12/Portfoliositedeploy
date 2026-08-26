@@ -23,7 +23,7 @@ WORKDIR /var/www/html
 COPY composer.json composer.lock ./
 
 # Install PHP dependencies
-RUN composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader
+RUN composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader --no-scripts
 
 # Install Node.js
 RUN apk add --no-cache nodejs npm
@@ -36,6 +36,9 @@ RUN npm ci
 
 # Copy application files
 COPY . .
+
+# Run Laravel's package discovery after artisan is available
+RUN php artisan package:discover --ansi
 
 # Build Vite assets
 RUN npm run build
