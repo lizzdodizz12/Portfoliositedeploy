@@ -37,13 +37,33 @@
   .section-inner { padding: 72px 22px; }
   .site-header { top: 12px; left: 12px; right: 12px; padding: 11px 14px; }
   .brand small { display: none; }
-  .hero { min-height: 760px; padding: 138px 22px 38px; }
+  .hero {
+    min-height: 100svh;
+    padding: 118px 18px 28px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 18px;
+    overflow: hidden;
+  }
   .hero-grid { background-size: 48px 48px; }
+  .hero-copy { order: 2; width: 100%; max-width: 100%; }
   .hero h1 { font-size: clamp(3.35rem, 16vw, 5.5rem); }
   .hero-role { max-width: 285px; font-size: 11px; line-height: 1.8; margin: 26px 0 15px; }
   .hero-description { max-width: 290px; font-size: 14px; }
   .hero-actions { align-items: flex-start; flex-direction: column; gap: 20px; margin-top: 30px; }
-  .hero-portrait-wrap { width: 94vw; height: 51%; right: -24%; opacity: .42; }
+  .hero-portrait-wrap {
+    order: 1;
+    position: relative;
+    width: min(78vw, 350px);
+    height: min(44vh, 300px);
+    right: auto;
+    left: 50%;
+    bottom: auto;
+    transform: translateX(-50%);
+    opacity: 1;
+    margin: 0 auto 6px;
+  }
   .portrait-label-top { top: 10%; left: 5%; }
   .portrait-label-bottom, .hero-side-note { display: none; }
   .display-heading { font-size: clamp(3rem, 14vw, 4.8rem); }
