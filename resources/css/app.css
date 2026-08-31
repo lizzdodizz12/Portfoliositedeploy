@@ -5,6 +5,7 @@
 +@media (prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}.reveal{opacity:1;transform:none}}
 /* Keep the profile photo above the decorative backdrop in its original colors. */
 .portrait-backdrop{z-index:0}.hero-portrait{z-index:1;filter:none;mix-blend-mode:normal}
+.project-image img,.modal-image img{filter:none;mix-blend-mode:normal;opacity:1}
 
 /* Responsive layout overrides. These are kept separate so they take precedence
    over the original desktop-first rules. */
@@ -82,4 +83,22 @@
   .modal-content { padding: 32px 22px; }
   .modal-columns { grid-template-columns: 1fr; gap: 4px; margin: 25px 0; }
   .modal-actions { align-items: flex-start; flex-direction: column; margin-top: 30px; }
+}
+
+@media (max-width: 380px) {
+  .hero { min-height: 720px; padding-inline: 18px; }
+  .hero h1 { font-size: clamp(3rem, 15vw, 4rem); }
+  .hero-portrait-wrap { right: -30%; }
+  .section-inner { padding-inline: 18px; }
+  .project-item { grid-template-columns: 34px minmax(0, 1fr) 24px; }
+  .project-image { height: 160px; }
+  .footer-right { align-items: flex-start; flex-direction: column; }
+}
+
+@media (max-width: 600px) {
+  img, video { max-width: 100%; }
+  button, .button, .text-link, .arrow-link, .contact-links a { min-height: 44px; }
+  .text-link, .arrow-link, .contact-links a { display: inline-flex; align-items: center; }
+  .project-item { -webkit-tap-highlight-color: transparent; }
+  .project-item:active { padding-inline: 8px; background: rgba(244,240,232,.06); }
 }
