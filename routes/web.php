@@ -1,11 +1,14 @@
 <?php
 
+use App\Http\Controllers\ContactController;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 
 Route::get('/', function () {
     return view('welcome');
 })->name('home');
+
+Route::post('/contact', [ContactController::class, 'send'])->name('contact.send');
 
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
