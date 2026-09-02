@@ -57,7 +57,6 @@ document.querySelectorAll('[data-project]').forEach((project) => project.addEven
 modal?.querySelectorAll('[data-modal-close]').forEach((button) => button.addEventListener('click', closeModal));
 document.addEventListener('keydown', (event) => { if (event.key === 'Escape') { closeModal(); closeMenu(); } });
 
-document.querySelector('[data-contact-form]')?.addEventListener('submit', (event) => { event.preventDefault(); const status = event.currentTarget.querySelector('.form-status'); status.textContent = 'Thanks. This prototype is ready to connect to Laravel.'; event.currentTarget.reset(); });
 document.querySelector('[data-back-top]')?.addEventListener('click', () => window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' }));
 
 if (!reduceMotion && window.matchMedia('(pointer: fine)').matches) {

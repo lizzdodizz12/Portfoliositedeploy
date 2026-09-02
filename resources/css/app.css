@@ -122,3 +122,5 @@
   .project-item { -webkit-tap-highlight-color: transparent; }
   .project-item:active { padding-inline: 8px; background: rgba(244,240,232,.06); }
 }
+
+.contact-form .form-error { color: var(--coral); font: 10px var(--mono); text-transform: none; }
